@@ -1,0 +1,45 @@
+Field	Value
+URL de l’application	https://indemnisation-c05.staging.cardif.fr/
+Adresse IP de la VIP	Leave blank — it’s optional and we haven’t confirmed the Qual VIP
+Environnement	Hors production
+Code AP	AP23985, as stated in the Security approval
+Support ID	17259384824815031421
+Date du blocage	2026-11-04 16:31:55
+Utilisateur(s) délégué(s)	Optional — add Sébastien if he needs to follow the request
+
+
+The URL is Qual C05, while the Support ID is a Prod example. That’s consistent with Hervé’s instructions; explain it in the description.
+
+Paste this into Description, in English:
+Please implement the approved “Do Nothing” exception for the Dynatrace Session Replay endpoints of Indemnisation, application reference AP23985.
+
+Thuriaf Nzadiyabi approved solution 2 by email on 23 November 2026. The approval is attached.
+
+Please implement the exception in qualification C05 first:
+
+Application URL:
+https://indemnisation-c05.staging.cardif.fr/
+
+Session Replay path:
+/rb_e9d2251e-b0ce-4283-a9dd-b7bdf75d50ad
+
+After validation in qualification, please arrange the production rollout through the orchestrator, taking into account the different production path:
+
+Application URL:
+https://indemnisation.cardif.fr/
+
+Session Replay path:
+/rb_08917e64-0bf9-43c0-80db-6bed08bd65c8
+
+The exception is limited to these Session Replay paths for Indemnisation.
+
+User sessions are visible in Dynatrace, but Session Replay recordings are unavailable. The requests trigger the following WAF violations:
+- Failed to convert character
+- Evasion technique detected
+- HTTP protocol compliance failed
+
+Reference production blocking event supplied by Hervé Potier:
+Support ID: 17259384824815031421
+Date: 2026-11-04 16:31:55
+
+This production event is provided for diagnosis; implementation is requested in qualification first.
