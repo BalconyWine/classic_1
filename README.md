@@ -1,30 +1,25 @@
-Subject: LATAM POC – Deployment Options & Next Steps
+Subject: LATAM POC – Deployment Scenarios and Pending Inputs
 
 Hi Team,
 
-Thank you for your time in yesterday’s LATAM call. Building on Wednesday’s FinOps deep-dive, here’s a concise professional summary of our proposed deployment paths and the critical validations we still need before kicking off the POC.
+Following our discussion yesterday, here’s what was presented regarding the POC launch plan:
 
-1. Deployment Options
+We’re considering three deployment scenarios:
 
-Sandbox on Cluster 246 (Preferred):
-Leverage the existing sandbox slot on 246 for a rapid, low-overhead start.
+Use the sandbox on Cluster 246 (preferred option, assuming availability).
 
-Standard Deploy on Cluster 246:
-If the sandbox is occupied, we can still use 246 by reducing each pod’s CPU request below 1 vCPU. The Technical Office (TEO) must confirm there’s capacity.
+If the sandbox isn’t available, fall back to a standard deployment on 246 with reduced CPU requirements (< 1 vCPU/pod), pending validation from TEO.
 
-Fallback to Cluster 1045:
-Only if Cluster 246 proves unviable. This path requires full onboarding and additional infrastructure validations.
+As a last resort, deploy on Cluster 1045, which would require full onboarding.
 
-2. Outstanding Validations
+This was the structure shared during the call. We agreed to loop in our FinOps contact next week for further clarification and to finalize governance.
 
-Sandbox/246 Capacity: TEO to confirm sandbox availability or reduced-footprint capacity on Cluster 246.
+On our side, we’re ready. Traffic will be outbound only from ADM (ZR), so very limited exposure — no heavy security concerns expected.
 
-Network Security: LATAM networking/security teams to approve the necessary inbound flow; our outbound-only traffic poses minimal risk.
+On the LATAM side, traffic will be inbound, so we’re waiting for feedback from your networking team regarding approval of that flow. This is currently the main blocker.
 
-Access Credentials: Dev/Admin to issue POC credentials—deployment cannot commence until these are in place.
+Also important: we still don’t have access, so we can’t start anything yet. This has already been communicated before — no access, no deployment.
 
-FinOps Coordination: We will include our FinOps contact on next week’s follow-up to finalize internal billing and governance.
-
-Once these items are addressed, we’re ready to launch immediately. Please update the channel with status on each validation so we can stay aligned and move forward without delay.
+We’re standing by. Once we get confirmation on access and networking, we’re good to go.
 
 Best regards,
