@@ -1,23 +1,28 @@
+Subject: LATAM POC – Deployment Scenarios and Pending Input
+
 Dear Team,
 
-Following our call yesterday, and as part of the ongoing coordination initiated during Wednesday’s FinOps session, I’m summarizing below the deployment scenarios we discussed, as well as the single outstanding action needed before we can move forward.
+Following our discussion yesterday — and further to the FinOps session earlier this week — here is a consolidated summary of the proposed POC deployment scenarios, as well as the outstanding items we need to move forward.
 
 Deployment Scenarios Presented
-
 Option 1 – Use of the Sandbox on Cluster 246
-This remains the preferred scenario, as it would allow us to launch quickly with minimal setup. This is subject to the sandbox being available.
+Preferred option, offering the quickest path forward, pending confirmation of sandbox availability.
 
 Option 2 – Standard Deployment on Cluster 246
-If the sandbox is unavailable, we can still proceed on Cluster 246 by reducing pod CPU requests below 1 vCPU. This approach requires validation of available capacity by TEO.
+If the sandbox is unavailable, deployment is still possible on the same cluster by reducing pod CPU requests below 1 vCPU. This requires capacity validation by TEO.
 
 Option 3 – Deployment on Cluster 1045
-This is a fallback scenario, to be considered only if deployment on Cluster 246 proves unfeasible. It would involve a full onboarding and more extended lead times.
+Fallback option if Cluster 246 proves unfeasible. Would involve full onboarding and additional coordination.
 
-Pending Item
-At this point, the only remaining blocker is the confirmation from the LATAM networking team regarding the required connectivity. Once this is received, we are fully ready to begin the POC.
+Current Status and Next Steps
+The setup is ready from our side, and we’re aligned on the scenarios above.
 
-Eric (FinOps) will be added in copy going forward to support the coordination and ensure alignment on governance aspects.
+However, I still do not have all the necessary accesses to begin work. This remains a blocking point.
 
-Please let us know as soon as your network team has provided their input so we can proceed without further delay.
+We are also awaiting confirmation from the LATAM networking team regarding the required connectivity to proceed.
+
+To ensure full visibility and alignment on the financial side, Eric Loiret (FinOps) will be included in copy on future exchanges related to this POC.
+
+Please let us know once the network validation is complete and access provisioning is confirmed.
 
 Best regards,
