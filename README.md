@@ -1,27 +1,23 @@
-Subject: LATAM POC – Scenarios Presented and Required Validations
-
 Dear Team,
 
-Following our discussion yesterday, here is a summary of the deployment scenarios we presented and the remaining steps required before we can proceed with the POC:
+Following our call yesterday, and as part of the ongoing coordination initiated during Wednesday’s FinOps session, I’m summarizing below the deployment scenarios we discussed, as well as the single outstanding action needed before we can move forward.
 
-Deployment Scenarios Considered:
+Deployment Scenarios Presented
 
-Use of the Sandbox on Cluster 246 – This is the preferred solution, provided the sandbox is available.
+Option 1 – Use of the Sandbox on Cluster 246
+This remains the preferred scenario, as it would allow us to launch quickly with minimal setup. This is subject to the sandbox being available.
 
-Standard Deployment on Cluster 246 – If the sandbox is not an option, we can still move forward by reducing pod CPU usage below 1 vCPU, subject to TEO validation of available capacity.
+Option 2 – Standard Deployment on Cluster 246
+If the sandbox is unavailable, we can still proceed on Cluster 246 by reducing pod CPU requests below 1 vCPU. This approach requires validation of available capacity by TEO.
 
-Deployment on Cluster 1045 – This remains the fallback scenario, requiring a full onboarding process and additional validation efforts.
+Option 3 – Deployment on Cluster 1045
+This is a fallback scenario, to be considered only if deployment on Cluster 246 proves unfeasible. It would involve a full onboarding and more extended lead times.
 
-Next Steps & Outstanding Items:
+Pending Item
+At this point, the only remaining blocker is the confirmation from the LATAM networking team regarding the required connectivity. Once this is received, we are fully ready to begin the POC.
 
-FinOps Coordination: Our FinOps contact will be looped in early next week to provide further clarification and ensure alignment on governance.
+Eric (FinOps) will be added in copy going forward to support the coordination and ensure alignment on governance aspects.
 
-Access: We currently do not have the necessary credentials to begin. This has been flagged before — access must be granted before any activity can start.
-
-Networking Validation: From our side (ADM/ZR), the data flow will be outbound only, requiring minimal security exposure. However, from the LATAM side, incoming flow needs to be opened. We are currently awaiting confirmation from your networking/security team on this point.
-
-Once these items are confirmed, we are fully ready to proceed with the deployment.
+Please let us know as soon as your network team has provided their input so we can proceed without further delay.
 
 Best regards,
-[Your Name]
-SRE & Coordination Team
