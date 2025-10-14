@@ -1,75 +1,47 @@
-Résumé de l’incident
+Program context. “Digital Backbone” is the flagship LATAM transformation. It was reviewed at a LATAM seminar; high visibility; Pauline is pressing for results.
 
-Symptôme utilisateur : prod KO (HTTP 503 sur 20h).
+Roadmap decision. The “accelerated” 3-year scenario was challenged and dropped. Expect +12–18 months to the overall plan. A compromise scenario will be communicated next week and then presented at a SteerCo / CGP validation soon after.
 
-Sur Dynatrace : le synthetic [AP27488] API STORE CARDIF échouait mais aucun e-mail reçu. Les Problems étaient rattachés au profil d’alerte Default.
+Near-term scope unchanged. Focus countries remain Chile and Mexico. Brazil is delayed/unclear. No brand-new use cases were added.
 
-Diagnostic (chronologie)
+Where LATAM needs central help / dates.
 
-Constat dans Synthetic : exécutions en échec (503) depuis Paris ; Problems ouverts.
+LINK – the inter-cloud/file/data transfer program (owned centrally by Damien Thibault) → LATAM wants a date/visibility to plan around.
 
-Contradiction : dans la page Problems, colonne Alerting profiles = Default → notre profil dédié n’était pas appliqué.
+Secret Data Management – encryption/tokenization approach and key management; they want a date/trajectory. Stopgap considered: Voltage (not a group standard but “good enough” interim).
 
-Piste 1 : réglage d’indisponibilité trop strict.
+CTDF – data warehouse/platform migration support and country roadmaps; there’s a disconnect between Paris and LATAM on what’s in scope and who starts.
 
-Action : Outage handling → activé “Generate a problem when the monitor is unavailable for one or more consecutive runs at any location” (1 échec suffit).
+24×7 “follow-the-sun” support – define L1/L2/L3 split across Colombia, Portugal, India, Paris, with access/monitoring and language constraints documented. Don’t outsource to Manila; build this internally.
 
-Piste 2 : filtrage par Management zone et par tags/AlertCode.
+Cloud placement & classification (hot potato).
 
-Après échange avec l’équipe Dynatrace, la management zone a été changée. Suite à ce changement, plus aucun élément n’apparaissait dans notre liste (profils/notifications) car mauvais rattachement zone + AEL.
+DMZR for Partners / CIDP is claimed to be Cloud Type 2 (“Special Green”, hosted in our DC), therefore hosting secret data is allowed in theory.
 
-Remédiation (pas à pas)
+BUT even in Type 2, for secret data: application-level encryption/tokenization is still required, with master keys under our control (HSM / CipherTrust). Database-at-rest encryption alone is not sufficient.
 
-Nettoyage / recréation
+“Digital by Cardif” MZR sits elsewhere (different classification).
 
-Recréé le profil d’alerte du projet (AP27488-CARDIF-API-STORE) dans la bonne management zone.
+Security tech options.
 
-Supprimé les anciens filtres trop restrictifs (ex. “global outage only”).
+Voltage (tokenization/format-preserving encryption) can work, and keys could live in the group HSM.
 
-AEL (Alert/Event List)
+Thales CipherTrust can do tokenization either via code libraries or REST proxy (less intrusive) — but needs ProcSec acceptance. “HPCS hybride” mentioned if VPC constraints exist.
 
-Vérifié la déclaration de l’AlertCode côté AEL pour ce projet.
+Governance & cadence.
 
-Corrigé l’AlertCode et son emplacement afin qu’il colle à la nouvelle zone.
+One program SteerCo only (no parallel governance). Timothée acts as SPOC to consolidate central topics and report to Martine (who remains accountable for risks).
 
-Tags côté synthetic
+A cross-org “All-parties” session was tentatively 29 Oct; might move to 30–31 Oct. Also establish a 30-min weekly central sync (ProdSec, Architecture, Telecom, CTDF, BP2I, etc.).
 
-Confirmé les tags sur le monitor : AlertCode:AP27488_Health_Check, alerting_synthetic:CARDIFAPISTORE, etc.
+Deadlines & risks.
 
-Notifications e-mail
+ITSVC (architecture/security committee) needs full validation in ~1 month. Real risk that LINK patterns and Secret Data solution won’t be completely ready; may proceed with reservations noted.
 
-Recréé la notification e-mail et rattaché explicitement le profil d’alerte du projet (pas “Default”).
+GAD (architecture dossier) must be filled now; bring Chile architects in to co-write.
 
-Bouton Send test notification pour valider la délivrabilité.
+Key person risk: LATAM architect Marcos Turiano is out ~1 month for health reasons.
 
-Vérification fonctionnelle
+Budget. 2025 under-consumed; 2026 central budget exists for Digital Backbone (exact amount to confirm). If needed, extra central funding could be added to unblock critical streams.
 
-Simulation d’erreur (exécution à la demande avec URL invalide / règle de contenu qui échoue).
-
-Constat : Problem créé avec le bon AlertCode, profil d’alerte du projet appliqué, e-mail reçu.
-
-Test croisé avec Tony (équipe applicative) : échec simulé → e-mail reçu côté app.
-
-Résultat
-
-Les Problems du synthetic portent le bon AlertCode, sont rattachés au bon profil (projet) et envoient les e-mails aux destinataires.
-
-Pièces jointes à déposer dans le ticket
-
-Capture Problem avant (profil = Default).
-
-Capture du profil d’alerte recréé (zone + tags + sévérités).
-
-Capture de la notification e-mail liée au bon profil.
-
-Capture Problem après (profil = AP27488-CARDIF-API-STORE).
-
-Capture d’un e-mail d’alerte reçu (toi + Tony).
-
-Prévention / bonnes pratiques
-
-Conserver l’option “any location / 1 failure” dans Outage handling.
-
-Lors d’un changement de management zone, vérifier AEL + tags + notifications.
-
-Tester systématiquement via “Send test notification” + échec simulé.
+Go-live pressure. MVP already live (friend-and-family) with Coppel in MX; full rollout of ~1500 branches expected around early Q1 (one quote also said Feb 2026—needs confirmation). Support model must be defined before scale-up.
