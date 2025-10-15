@@ -1,47 +1,65 @@
-Program context. “Digital Backbone” is the flagship LATAM transformation. It was reviewed at a LATAM seminar; high visibility; Pauline is pressing for results.
+As requested, we reviewed the recent spike in ServiceNow incidents.
 
-Roadmap decision. The “accelerated” 3-year scenario was challenged and dropped. Expect +12–18 months to the overall plan. A compromise scenario will be communicated next week and then presented at a SteerCo / CGP validation soon after.
+Summary
 
-Near-term scope unchanged. Focus countries remain Chile and Mexico. Brazil is delayed/unclear. No brand-new use cases were added.
+49 incidents are currently assigned to our team; 29 are Control-M related.
 
-Where LATAM needs central help / dates.
+A significant portion of the remainder are not incidents. They are routine requests or non-production (dev/qualification) items that should be handled in JIRA or as Service Requests, not as Incidents.
 
-LINK – the inter-cloud/file/data transfer program (owned centrally by Damien Thibault) → LATAM wants a date/visibility to plan around.
+Many tickets are underspecified (missing server/job name, timestamps, error snippets) and are followed by ad-hoc meeting invites, which adds overhead without improving resolution time.
 
-Secret Data Management – encryption/tokenization approach and key management; they want a date/trajectory. Stopgap considered: Voltage (not a group standard but “good enough” interim).
+Examples (from the queue)
 
-CTDF – data warehouse/platform migration support and country roadmaps; there’s a disconnect between Paris and LATAM on what’s in scope and who starts.
+INC29535869 — “[DH/DOS] Server Qualif is down.” Request to restart a qualification server (Env: Qualification; Service: AP7630 – DATAHUB DOS – Qualification; Impact 3; Urgency 5).
 
-24×7 “follow-the-sun” support – define L1/L2/L3 split across Colombia, Portugal, India, Paris, with access/monitoring and language constraints documented. Don’t outsource to Manila; build this internally.
+INC29454901 — “[DH/DOS] Audit Production server.” Request to run/skip an audit with a Confluence link and a list of servers.
 
-Cloud placement & classification (hot potato).
+INC28980006 — “File retrieval.” “Besoin de récupérer le fichier de prod … DOMINO_2025-10-28.”
 
-DMZR for Partners / CIDP is claimed to be Cloud Type 2 (“Special Green”, hosted in our DC), therefore hosting secret data is allowed in theory.
+INC2778907 — “EICC anonymizer / affiliation model.” Ask to send/update a model in EICC.
 
-BUT even in Type 2, for secret data: application-level encryption/tokenization is still required, with master keys under our control (HSM / CipherTrust). Database-at-rest encryption alone is not sufficient.
+These are service requests/operational tasks, not production incidents.
 
-“Digital by Cardif” MZR sits elsewhere (different classification).
+Observed pattern
 
-Security tech options.
+Teams are opening incidents for dev/qualification issues to gain faster attention and for long jobs/audit activities (Control-M or otherwise).
 
-Voltage (tokenization/format-preserving encryption) can work, and keys could live in the group HSM.
+Impact/Urgency are often set low (e.g., Impact 3, Urgency 5) but the ticket type is still “Incident.”
 
-Thales CipherTrust can do tokenization either via code libraries or REST proxy (less intrusive) — but needs ProcSec acceptance. “HPCS hybride” mentioned if VPC constraints exist.
+Missing triage data leads to repeated back-and-forth and meetings.
 
-Governance & cadence.
+Recommendations
 
-One program SteerCo only (no parallel governance). Timothée acts as SPOC to consolidate central topics and report to Martine (who remains accountable for risks).
+Routing rules:
 
-A cross-org “All-parties” session was tentatively 29 Oct; might move to 30–31 Oct. Also establish a 30-min weekly central sync (ProdSec, Architecture, Telecom, CTDF, BP2I, etc.).
+Dev/Qualification issues → JIRA (qualification/QA issue type).
 
-Deadlines & risks.
+Operational asks (audit runs, long-running jobs, file retrievals, anonymizer/model updates) → Service Request/JIRA, not Incident.
 
-ITSVC (architecture/security committee) needs full validation in ~1 month. Real risk that LINK patterns and Secret Data solution won’t be completely ready; may proceed with reservations noted.
+Gatekeeping: Have Service Desk reclassify misrouted items on intake; reject incidents without minimum triage data.
 
-GAD (architecture dossier) must be filled now; bring Chile architects in to co-write.
+Minimum data for true incidents: server/VM, job name (for batch/Control-M), exact timestamp, user impact, and first error/log excerpt; expected vs. actual behavior; “what changed.”
 
-Key person risk: LATAM architect Marcos Turiano is out ~1 month for health reasons.
+Tooling guardrails (short list):
 
-Budget. 2025 under-consumed; 2026 central budget exists for Digital Backbone (exact amount to confirm). If needed, extra central funding could be added to unblock critical streams.
+ServiceNow UI policy to block “Incident” when Environment = Dev/Qualification.
 
-Go-live pressure. MVP already live (friend-and-family) with Coppel in MX; full rollout of ~1500 branches expected around early Q1 (one quote also said Feb 2026—needs confirmation). Support model must be defined before scale-up.
+Simple templates for common requests (audit, file retrieval, long job follow-up).
+
+Control-M status
+
+We’ve started analysis. The flow involves a ~700-line script supplied by a partner. We’re checking Control-M filters and job criteria that appear to be auto-creating incidents, and validating which jobs should/shouldn’t raise tickets.
+
+We will come back with options (e.g., adjust thresholds, disable auto-ticketing for long-running jobs, or route to a request queue) once we finish the review.
+
+Decisions needed
+
+Approve the routing policy above (Incident reserved for production impact only).
+
+Allow us to reclassify/close misrouted items in the current queue and move them to the correct tracker.
+
+Green-light the ServiceNow/JIRA guardrails and the intake gatekeeping step.
+
+Happy to provide a short deck with counts and examples if helpful.
+
+Best regards,
