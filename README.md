@@ -1,65 +1,31 @@
-As requested, we reviewed the recent spike in ServiceNow incidents.
+Hi team,
 
-Summary
+I went through the docs, and here’s my simple read of what this project is about:
 
-49 incidents are currently assigned to our team; 29 are Control-M related.
+We’re moving Claims reporting into CTDF (Cardif Trusted Data Fabric), which will be our new “home” for data. Right now reports depend on old tools (BO, SAS, DW), and the idea is to replace those step by step.
 
-A significant portion of the remainder are not incidents. They are routine requests or non-production (dev/qualification) items that should be handled in JIRA or as Service Requests, not as Incidents.
+Source data: comes mainly from Appian (and Gipsy).
 
-Many tickets are underspecified (missing server/job name, timestamps, error snippets) and are followed by ad-hoc meeting invites, which adds overhead without improving resolution time.
+Ingestion: SSIS + CFT move the data into CTDF.
 
-Examples (from the queue)
+Storage in CTDF: data gets organized in layers (Raw → Refined → Optimized).
 
-INC29535869 — “[DH/DOS] Server Qualif is down.” Request to restart a qualification server (Env: Qualification; Service: AP7630 – DATAHUB DOS – Qualification; Impact 3; Urgency 5).
+Consumption: Power BI connects directly to the Claims Data Product for dashboards.
 
-INC29454901 — “[DH/DOS] Audit Production server.” Request to run/skip an audit with a Confluence link and a list of servers.
+Governance: Collibra catalogs the data, ownership, and lineage.
 
-INC28980006 — “File retrieval.” “Besoin de récupérer le fichier de prod … DOMINO_2025-10-28.”
+Contingency path: if the pipeline fails, Appian/Gipsy can export a file, drop it in SharePoint, and Power BI can still render reports (manual but keeps continuity).
 
-INC2778907 — “EICC anonymizer / affiliation model.” Ask to send/update a model in EICC.
+Main things flagged for the review:
 
-These are service requests/operational tasks, not production incidents.
+We still need clear reporting/dashboard requirements.
 
-Observed pattern
+Ownership of data (especially cross-domain) needs to be sorted.
 
-Teams are opening incidents for dev/qualification issues to gain faster attention and for long jobs/audit activities (Control-M or otherwise).
+Performance tests for Power BI are not done yet.
 
-Impact/Urgency are often set low (e.g., Impact 3, Urgency 5) but the ticket type is still “Incident.”
+Continuity (RTO/RPO, backup/restore) must be tightened in next phases.
 
-Missing triage data leads to repeated back-and-forth and meetings.
+Bottom line: The direction makes sense—CTDF + Power BI + Collibra is the right setup. The review will check whether we have the contract, performance plan, and continuity plan nailed down enough to move forward.
 
-Recommendations
-
-Routing rules:
-
-Dev/Qualification issues → JIRA (qualification/QA issue type).
-
-Operational asks (audit runs, long-running jobs, file retrievals, anonymizer/model updates) → Service Request/JIRA, not Incident.
-
-Gatekeeping: Have Service Desk reclassify misrouted items on intake; reject incidents without minimum triage data.
-
-Minimum data for true incidents: server/VM, job name (for batch/Control-M), exact timestamp, user impact, and first error/log excerpt; expected vs. actual behavior; “what changed.”
-
-Tooling guardrails (short list):
-
-ServiceNow UI policy to block “Incident” when Environment = Dev/Qualification.
-
-Simple templates for common requests (audit, file retrieval, long job follow-up).
-
-Control-M status
-
-We’ve started analysis. The flow involves a ~700-line script supplied by a partner. We’re checking Control-M filters and job criteria that appear to be auto-creating incidents, and validating which jobs should/shouldn’t raise tickets.
-
-We will come back with options (e.g., adjust thresholds, disable auto-ticketing for long-running jobs, or route to a request queue) once we finish the review.
-
-Decisions needed
-
-Approve the routing policy above (Incident reserved for production impact only).
-
-Allow us to reclassify/close misrouted items in the current queue and move them to the correct tracker.
-
-Green-light the ServiceNow/JIRA guardrails and the intake gatekeeping step.
-
-Happy to provide a short deck with counts and examples if helpful.
-
-Best regards,
+Thanks,
