@@ -1,1 +1,128 @@
-{"name":"claims-reporting-readme","type":"document","content":"# Claims Reporting Data Product (Cardif Italy → CTDF)\n\n## What the project is (in one breath)\nCardif Italy is moving reporting for the Claims domain onto CTDF (Cardif Trusted Data Fabric) as a governed Claims Reporting Data Product. \nSource data comes from Appian (and the Gipsy app). SSIS handles ingestion/ETL and CFT handles file transfers. \nPower BI is the reporting front end. Collibra is the metadata/catalog. \nLegacy stacks (BO/Board/SAS/old DWs) are decommissioned in phases. \nThere’s also a manual contingency path via SharePoint → Power BI that carries no secret data.\n\n---\n\n## Why we’re doing it\n- Provide governed, trusted reporting data to the business \n- Lower baseline & marginal costs by retiring legacy warehouses/tools \n- Improve governance (ownership, lineage, cataloging, security) \n- Standardize on CTDF + Power BI \n\n---\n\n## What we’re building (target product)\nClaims Reporting Data Product on CTDF, with standard zones:\n- Mediation (CFT agent, workflows/jobs) \n- Raw → Refined → Optimized layers \n- Data Exploration area for ad-hoc analysis \n\nIntegrations:\n- Power BI dashboards (DB connection) \n- Collibra (REST API for metadata/lineage) \n\nSlide callouts:\n- SSIS reads Appian data via DB connection \n- SSIS, Gipsy, Claims DP exchange files via CFT \n- Power BI connects to Claims DP via DB connection \n- Collibra consumes metadata via REST API \n\n---\n\n## How data flows\n\n### Normal (target) flow\n\nAppian / Gipsy → (DB or files) → SSIS\nSSIS → via CFT → CTDF Mediation\nCTDF: Raw → Refined → Optimized\nPower BI → direct DB connection\nCollibra → consumes metadata via REST\n\n\n### Contingency flow\n\nOperator downloads pre-computed file (Appian/Gipsy)\n→ Drops file in SharePoint\n→ Power BI reads from SharePoint\n\n\n- No secret data in contingency path \n- Manual, time-boxed fallback \n- Actors: Cardif Operator (prep/load), Cardif User (consume dashboards) \n\n---\n\n## Program / roadmap\n- Initial slice reviewed in ITSVC \n- Next: reporting needs assessment, SAP/BO decommissioning \n- Dependencies with other initiatives \n- Official doc tracks IT project cost (k€), 1-year run cost (k€), milestones (IC INIT / ITSVC VALID / IC END) \n\n---\n\n## Security & continuity\n- Authentication: SSO via IAM \n- Traceability & audit: Compliant \n- Confidentiality/Integrity/Availability: Compliant at C3 classification \n- Continuity: “Mostly compliant” for phase 1; must be re-reviewed \n- Contingency: SharePoint/Power BI fallback carries no secret data \n\n---\n\n## Compliance\n\nEnterprise Architecture\n- Overall: Compliant / Mostly compliant \n- Risks: unclear dashboard needs, cross-domain stewardship, draft architecture \n\nTechnical ITG\n- Platform choice: Compliant (CTDF + PBI + SSIS + CFT) \n- Performance: flagged, tests required \n- Mutualisation: Compliant (managed services) \n\nInfrastructure ITGP\n- Hosting: Compliant (managed cloud) \n- Network/Telecom: Compliant \n- Backup/Operability: Compliant \n\nSecurity (Cardif)\n- Auth, access, traceability, confidentiality, integrity, availability: Compliant \n- IT Continuity: Mostly compliant (adequate phase 1, must improve) \n- Classification: C3 \n\nProduction readiness\n- Backup, volumetry, operability: Compliant \n- Load/performance tests: Planned \n\n---\n\n## Risks & reservations\n- Performance/scale unknowns (Power BI concurrency, refresh windows) → tests required \n- Ownership leak: SSIS extracts cross-domain data → fix contracts & RACI \n- Continuity: only “mostly compliant,” must raise RTO/RPO and run restore drills \n- Requirements ambiguity: dashboards underspecified \n- Contingency path: manual SharePoint, enforce DLP and retention rules \n- Coupling: tighten producer/consumer boundaries, avoid point-to-point hacks \n\n---\n\n## Definition of Done\n- Product contract published in Collibra (schema, SLAs, RLS, PII classification, retention) \n- Performance test results meet agreed SLOs \n- Continuity plan with RTO/RPO evidence, backup/restore drills, documented fallback runbook \n- Interfaces fully specified (file formats, checksums, idempotency, error handling) \n- RACI resolves stewardship issues \n- Legacy tools decommissioned, tied to data-quality signoff \n\n---\n\n## Acronym crib sheet\n- CTDF – Cardif Trusted Data Fabric \n- SSIS – SQL Server Integration Services \n- CFT – File Transfer Tool \n- PBI – Power BI \n- IAM/SSO – Identity & Access Management / Single Sign-On \n- CIAT – Confidentiality, Integrity, Availability, Traceability \n- ITSVC / ITG / ITGP – Internal review/committee and governance bodies \n- C3 – Data classification level \n\n---"}
+# Claims Reporting Data Product (Cardif Italy → CTDF)
+
+## One-breath description
+Cardif Italy is migrating **Claims domain reporting** to **CTDF (Cardif Trusted Data Fabric)** as a governed Claims Reporting Data Product.  
+- **Sources:** Appian & Gipsy  
+- **ETL:** SSIS  
+- **Transfers:** CFT  
+- **Reporting:** Power BI  
+- **Metadata:** Collibra  
+- **Legacy tools:** BO, Board, SAS, old DWs (phased out)  
+- **Fallback path:** SharePoint → Power BI (manual, no secret data)
+
+---
+
+## Why
+- Deliver governed, trusted reporting data
+- Retire legacy warehouses/tools and reduce costs
+- Strengthen governance (ownership, lineage, catalog, security)
+- Standardize on CTDF + Power BI
+
+---
+
+## Target product
+- **CTDF Claims Reporting Data Product**
+  - Mediation (CFT agent, workflows/jobs)
+  - Raw → Refined → Optimized layers
+  - Data Exploration (ad-hoc)
+- **Integrations**
+  - Power BI dashboards (DB connection)
+  - Collibra via REST API (metadata, lineage)
+
+---
+
+## Data flows
+
+### Normal flow
+```
+Appian / Gipsy → SSIS (DB or files)
+SSIS → CFT → CTDF Mediation
+CTDF: Raw → Refined → Optimized
+Power BI → DB connection
+Collibra → REST metadata
+```
+
+### Contingency flow
+```
+Operator downloads file from Appian/Gipsy
+→ Uploads to SharePoint
+→ Power BI reads from SharePoint
+```
+- No secret data in contingency path
+- Manual & temporary fallback
+- Actors: Cardif Operator (prep/load), Cardif User (consume dashboards)
+
+---
+
+## Roadmap
+- Initial slice reviewed in ITSVC
+- Next: reporting needs assessment, SAP/BO decommissioning
+- Dependencies with other initiatives
+- Official doc tracks IT project cost (k€), run cost (k€), milestones (IC INIT / ITSVC VALID / IC END)
+
+---
+
+## Security & continuity
+- **Authentication:** SSO via IAM
+- **Traceability/Audit:** Compliant
+- **Confidentiality/Integrity/Availability:** Compliant at **C3** classification
+- **Continuity:** Mostly compliant (phase 1 adequate, must improve later)
+- **Contingency:** SharePoint/Power BI fallback with no secret data
+
+---
+
+## Compliance
+### Enterprise Architecture
+- Overall: Compliant / Mostly compliant
+- Risks: vague dashboard requirements, cross-domain stewardship issues, draft architecture
+
+### Technical ITG
+- Platform: Compliant (CTDF + PBI + SSIS + CFT)
+- Performance: Warning → tests required
+- Mutualisation: Compliant (managed services)
+
+### Infrastructure ITGP
+- Hosting: Compliant (cloud managed)
+- Network/Telecom: Compliant
+- Backup/Operability: Compliant
+
+### Security (Cardif)
+- Authentication, authorization, traceability, confidentiality, integrity, availability: Compliant
+- IT Continuity: Mostly compliant (adequate for phase 1, must improve)
+- Classification: **C3**
+
+### Production readiness
+- Backup, volumetry, operability: Compliant
+- Load/performance tests: Planned
+
+---
+
+## Risks & reservations
+- Performance/scale unknowns (Power BI refresh/concurrency) → tests required
+- Ownership/stewardship: SSIS extracts cross-domain → fix contracts/RACI
+- Continuity: raise RTO/RPO, perform restore drills
+- Ambiguous dashboard requirements threaten design
+- Contingency path: manual → enforce DLP/retention
+- Coupling: clarify producer/consumer boundaries, avoid point-to-point
+
+---
+
+## Definition of Done
+- Product contract in Collibra (schema, SLAs, RLS, PII classification, retention)
+- Performance test results meeting agreed SLOs
+- Continuity plan with RTO/RPO evidence, backup/restore drills, documented fallback runbook
+- Fully specified interfaces (file formats, checksums, idempotency, error handling)
+- RACI resolving stewardship issues
+- Legacy tools decommissioned tied to data-quality signoff
+
+---
+
+## Acronym Crib Sheet
+- **CTDF** – Cardif Trusted Data Fabric
+- **SSIS** – SQL Server Integration Services
+- **CFT** – File Transfer Tool
+- **PBI** – Power BI
+- **IAM/SSO** – Identity & Access Management / Single Sign-On
+- **CIAT** – Confidentiality, Integrity, Availability, Traceability
+- **ITSVC / ITG / ITGP** – Governance bodies
+- **C3** – Data classification level
