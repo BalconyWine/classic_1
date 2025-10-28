@@ -5,3 +5,8 @@ We currently have a POC and some SQL scripts that need to be launched on the dat
 We tried running them on our side, but we don’t have the right access/permissions. Any guidance you can provide would be much appreciated.
 
 Thanks,
+Bonjour Houda,
+
+Dans le cadre d’un POC, nous avons quelques scripts SQL à exécuter sur la base de données. Pourrais-tu nous indiquer la meilleure façon de procéder ? Faut-il passer par toi directement ou suivre un processus particulier ?
+
+Merci beaucoup pour ton aide,
