@@ -1,3 +1,1 @@
-Je te contacte de la part d'Oussama suite à ton message concernant la demande de l'équipe italienne sur la gestion des flux CFT.
-J'ai bien récupéré ton document d'analyse avec la liste des métadonnées qu'ils souhaitent gérer (noms des flux, serveurs, IP, etc.). Oussama partage tout à fait ton étonnement : ce besoin semble très technique et spécifique à la production.
-Je suis en train de regarder de mon côté avec nos outils ITG / Production actuels pour voir si ce besoin n'est pas déjà couvert par un autre de nos référentiels. Je compile les informations et je te fais un retour très rapidement pour qu'on puisse leur répondre !
+j
